@@ -1,0 +1,30 @@
+<script src="https://mcapi.us/scripts/minecraft.js"></script>
+<h1>73.241.10.33</h1>
+<div class="server-status">
+  <h2>
+    Status: <span class="server-online"></span>
+  </h2>
+  <div class="server-details">
+    <ul>
+      <li>Current player count: <span class="players-now"></span>
+      <li>Message of the day: <span class="motd"></span>
+    </ul>
+  </div>
+</div>
+
+<script>
+  MinecraftAPI.getServerStatus('73.241.10.33', {}, function (err, status) {
+    if (err) {
+      return document.querySelector('.server-status').innerHTML = 'Error loading status';
+    }
+    // you can change these to your own message!
+    if (status.online) {
+      document.querySelector('.server-online').innerHTML = 'UP';
+      document.querySelector('.players-now').innerHTML = status.players.now;
+      document.querySelector('.motd').innerHTML = status.motd;
+    } else {
+      document.querySelector('.server-online').innerHTML = 'DOWN';
+      document.querySelector('.server-details').innerHTML = 'Well that doesn\'t look good';
+    }
+  });
+</script>
