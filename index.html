@@ -1,30 +1,53 @@
-<script src="https://mcapi.us/scripts/minecraft.js"></script>
-<h1>73.241.10.33</h1>
-<div class="server-status">
-  <h2>
-    Status: <span class="server-online"></span>
-  </h2>
-  <div class="server-details">
-    <ul>
-      <li>Current player count: <span class="players-now"></span>
-      <li>Message of the day: <span class="motd"></span>
-    </ul>
-  </div>
-</div>
+<!doctype html>
+<html>
+  <head>
+    <script src="https://mcapi.us/scripts/minecraft.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
+  </head>
 
-<script>
-  MinecraftAPI.getServerStatus('73.241.10.33', {}, function (err, status) {
-    if (err) {
-      return document.querySelector('.server-status').innerHTML = 'Error loading status';
-    }
-    // you can change these to your own message!
-    if (status.online) {
-      document.querySelector('.server-online').innerHTML = 'UP';
-      document.querySelector('.players-now').innerHTML = status.players.now;
-      document.querySelector('.motd').innerHTML = status.motd;
-    } else {
-      document.querySelector('.server-online').innerHTML = 'DOWN';
-      document.querySelector('.server-details').innerHTML = 'Well that doesn\'t look good';
-    }
-  });
-</script>
+  <body ng-app = "myapp">
+    <div ng-controller = "HelloController">
+      <h1>73.241.10.33</h1>
+      <div ng-if="!status">
+        <div ng-if="err">
+          Error loading status
+        </div>
+        <div ng-if="!err">
+          Loading...
+        </div>
+      </div>
+
+      <div ng-if="status">
+        <div ng-if="status.online">
+          <h2>
+            Status: UP
+          </h2>
+          <ul>
+            <li>Current player count: {{status.players.now}}
+            <li>Message of the day: {{status.motd}}
+          </ul>
+        </div>
+        <div ng-if="!status.online">
+          <h2>
+            Status: DOWN
+          </h2>
+          Uh oh!
+        </div>
+      </div>
+    </div>
+
+    <script>
+      angular.module("myapp", [])
+      .controller("HelloController", function($scope) {
+        $scope.helloTo = {};
+        $scope.helloTo.title = "AngularJS";
+
+        MinecraftAPI.getServerStatus('73.241.10.33', {}, (err, status) => {
+          $scope.err = err;
+          $scope.status = status;
+          $scope.$digest();
+        });
+      });
+    </script>
+  </body>
+</html>
