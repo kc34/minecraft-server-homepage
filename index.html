@@ -3,50 +3,75 @@
   <head>
     <script src="https://mcapi.us/scripts/minecraft.js"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular-sanitize.js"></script>
   </head>
 
   <body ng-app = "myapp">
     <div ng-controller = "HelloController">
       <h1>73.241.10.33</h1>
-      <div ng-if="!status">
-        <div ng-if="err">
-          Error loading status
-        </div>
-        <div ng-if="!err">
-          Loading...
+      <div ng-if="!response">
+        Loading...
+      </div>
+      <div ng-if="response">
+        <div ng-if="response.status === 200">
+          <div ng-if="!response.data.offline">
+            <h2>The server is ONLINE!</h2>
+            <ul>
+              <li>Message of the Day: <span ng-bind-html="response.data.motd.html[0]"></span>
+              <li>{{response.data.players.online}}/{{response.data.players.max}} Players
+                <ul>
+                  <li ng-if="response.data.players.list" ng-repeat="player in response.data.players.list">{{player}}
+                </ul>
+            </ul>
+          </div>
+          <div ng-if="response.data.offline">
+            <h2>The server is OFFLINE!</h2>
+          </div>
         </div>
       </div>
 
-      <div ng-if="status">
-        <div ng-if="status.online">
-          <h2>
-            Status: UP
-          </h2>
-          <ul>
-            <li>Current player count: {{status.players.now}}
-            <li>Message of the day: {{status.motd}}
-          </ul>
-        </div>
-        <div ng-if="!status.online">
-          <h2>
-            Status: DOWN
-          </h2>
-          Uh oh!
-        </div>
+      <h1>73.241.10.33:25566</h1>
+      <div ng-if="!response_two">
+        Loading...
       </div>
+      <div ng-if="response_two">
+        <div ng-if="response_two.status === 200">
+          <div ng-if="!response_two.data.offline">
+            <h2>The server is ONLINE!</h2>
+            <ul>
+              <li>Message of the Day: <span ng-bind-html="response_two.data.motd.html[0]"></span>
+              <li>{{response.data.players.online}}/{{response_two.data.players.max}} Players
+                <ul>
+                  <li ng-if="response_two.data.players.list" ng-repeat="player in response_two.data.players.list">{{player}}
+                </ul>
+            </ul>
+          </div>
+          <div ng-if="response_two.data.offline">
+            <h2>The server is OFFLINE!</h2>
+          </div>
+        </div>
     </div>
 
     <script>
-      angular.module("myapp", [])
-      .controller("HelloController", function($scope) {
-        $scope.helloTo = {};
-        $scope.helloTo.title = "AngularJS";
+      angular.module("myapp", ['ngSanitize'])
+      .controller("HelloController", function($scope, $timeout, $http) {
 
-        MinecraftAPI.getServerStatus('73.241.10.33', {}, (err, status) => {
-          $scope.err = err;
-          $scope.status = status;
-          $scope.$digest();
+        $http.get('https://api.mcsrvstat.us/1/73.241.10.33').then((response) => {
+          $scope.response = response;
+          console.log(response);
+          $timeout(() => {
+            $scope.$apply();
+          })
         });
+
+        $http.get('https://api.mcsrvstat.us/1/73.241.10.33:25566').then((response) => {
+          $scope.response_two = response;
+          console.log(response);
+          $timeout(() => {
+            $scope.$apply();
+          })
+        });
+
       });
     </script>
   </body>
