@@ -40,7 +40,7 @@
             <h2>The server is ONLINE!</h2>
             <ul>
               <li>Message of the Day: <span ng-bind-html="response_two.data.motd.html[0]"></span>
-              <li>{{response.data.players.online}}/{{response_two.data.players.max}} Players
+              <li>{{response_two.data.players.online}}/{{response_two.data.players.max}} Players
                 <ul>
                   <li ng-if="response_two.data.players.list" ng-repeat="player in response_two.data.players.list">{{player}}
                 </ul>
