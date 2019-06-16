@@ -8,7 +8,7 @@
 
   <body ng-app = "myapp">
     <div ng-controller = "HelloController">
-      <h1>73.241.10.33</h1>
+      <h1>24.6.170.127</h1>
       <div ng-if="!response">
         Loading...
       </div>
@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <h1>73.241.10.33:25566</h1>
+      <h1>24.6.170.127:25566</h1>
       <div ng-if="!response_two">
         Loading...
       </div>
@@ -56,7 +56,7 @@
       angular.module("myapp", ['ngSanitize'])
       .controller("HelloController", function($scope, $timeout, $http) {
 
-        $http.get('https://api.mcsrvstat.us/1/73.241.10.33').then((response) => {
+        $http.get('https://api.mcsrvstat.us/1/24.6.170.127').then((response) => {
           $scope.response = response;
           console.log(response);
           $timeout(() => {
@@ -64,7 +64,7 @@
           })
         });
 
-        $http.get('https://api.mcsrvstat.us/1/73.241.10.33:25566').then((response) => {
+        $http.get('https://api.mcsrvstat.us/1/24.6.170.127:25566').then((response) => {
           $scope.response_two = response;
           console.log(response);
           $timeout(() => {
