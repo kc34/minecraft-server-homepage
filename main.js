@@ -1,7 +1,6 @@
 const config = {
     serverAddresses: [
-        "24.6.170.127",
-        "24.6.170.127:25566",
+        "34.66.115.210",
     ],
     useFakeServerQueryService: false,
 }
